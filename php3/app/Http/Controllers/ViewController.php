@@ -1,15 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\ProductModel;
-use Illuminate\Routing\Controller;
+use Illuminate\Http\Request;
 
-
-abstract class ViewController extends Controller
+class ViewController extends Controller
 {
-    public function index(){
-        $prodcuts = ProductModel::all();
-        return view('welcome', compact('products'));
 
+    public function index(){
+        $products = ProductModel::all();
+        return view('welcome', compact('products'));
     }
+    
 }

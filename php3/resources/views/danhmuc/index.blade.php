@@ -303,15 +303,13 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Sản phẩm</th>
-                        <th>Số lượng</th>
-                        <th>Giá bán</th>
-                        <th>Trạng thái</th>
-                        <th>Thao tác</th>
+                        <th>ID</th>
+                        <th>Tên</th>
+                       
                     </tr>
                 </thead>
                 <tbody>
-                    @if($products->isEmpty())
+                    @if($danhmuc->isEmpty())
                         <tr>
                             <td colspan="5" style="text-align: center; color: var(--gray-text); padding: 40px;">
                                 Không có sản phẩm nào.
@@ -319,36 +317,16 @@
                         </tr>
                     @endif
                     
-                    @foreach ($products as $product)
+                    @foreach ($danhmuc as $dm)
                     <tr class="product-row">
+                       
+                        <td>{{ $dm->id }}</td>
+                     
                         <td>
-                            <div class="product-info">
-                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
-                                <span class="product-name">{{ $product->name }}</span>
-                            </div>
+                         
+                            <span class="status in-stock">{{ $dm->name }}</span>
                         </td>
-                        <td>{{ $product->quantity }}</td>
-                        <td>
-                            @if($product->price > 350)
-                                <span class="price high">{{ number_format($product->price) }}₫</span>
-                            @else
-                                <span class="price normal">{{ number_format($product->price) }}₫</span>
-                            @endif
-                        </td>
-                        <td>
-                            <!-- Bạn có thể set điều kiện if else để đổi class in-stock / out-stock -->
-                            <span class="status in-stock">{{ $product->status }}</span>
-                        </td>
-                        <td class="actions">
-                            <!-- Sửa thành thẻ a để đúng chuẩn RESTful thay vì form -->
-                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-outline">Sửa</a>
-                            
-                            <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="delete-form" style="display: inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-dark">Xóa</button>
-                            </form>
-                        </td>
+                    
                     </tr>
                     @endforeach
                 </tbody>
@@ -356,7 +334,7 @@
         </div>
         
         <div class="pagination-wrapper">
-            {{ $products->links() }}
+            {{ $danhmuc->links() }}
         </div>
     </div>
 

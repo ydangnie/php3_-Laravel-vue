@@ -65,8 +65,7 @@ class ProductController extends Controller
             $path = $request->file('image')->store('products', 'public');
             $data['image'] = $path;
         }
-
-        $product = ProductModel::findOrFail($id)->update($data);
+          ProductModel::findOrFail($id)->update($data);
         
 
         return redirect()->route('products')->with('succes', 'Cập nhật thành công');
