@@ -9,8 +9,12 @@ class ViewController extends Controller
 {
 
     public function index(){
-        $products = ProductModel::all();
-        return view('welcome', compact('products'));
+        
+        return view('welcome');
+    }
+    public function nav(){
+        
+        return view('layouts.nav');
     }
     
 }

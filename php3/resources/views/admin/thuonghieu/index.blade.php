@@ -279,9 +279,9 @@
 
     <div class="table-container">
         
-        @if(Session::has('message'))
-            <div class="alert">
-                {{ Session::get('message') }}
+        @if(Session('thongbao'))
+            <div class="alert" style="background:#eaeaea , color(  green)">
+                {{ Session('thongbao') }}
             </div>
         @endif
 

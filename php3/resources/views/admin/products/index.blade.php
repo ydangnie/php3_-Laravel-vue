@@ -272,6 +272,47 @@
             .table-wrapper { overflow-x: auto; }
             .btn { width: 100%; }
         }
+        .toast-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #10B981; /* Màu xanh lá cây báo thành công */
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    /* Hiệu ứng trượt vào từ bên phải */
+    transform: translateX(120%);
+    animation: slideIn 0.5s forwards;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.toast-message {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Class này dùng để JS kích hoạt hiệu ứng biến mất */
+.toast-notification.hide {
+    opacity: 0;
+    transform: translateX(120%);
+}
+
+@keyframes slideIn {
+    to {
+        transform: translateX(0);
+    }
+}
     </style>
 </head>
 
@@ -279,11 +320,16 @@
 
     <div class="table-container">
         
-        @if(Session::has('message'))
-            <div class="alert">
-                {{ Session::get('message') }}
-            </div>
-        @endif
+       @if(session('thongbao'))
+    <div id="toast-success" class="toast-notification">
+        <div class="toast-content">
+            <svg viewBox="0 0 24 24" class="toast-icon" width="24" height="24">
+                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>
+            </svg>
+            <span class="toast-message">{{ session('thongbao') }}</span>
+        </div>
+    </div>
+@endif
 
         <div class="table-header">
             <h2>Danh sách products</h2>
@@ -336,11 +382,11 @@
                             @endif
                         </td>
                         <td>
-                            <!-- Bạn có thể set điều kiện if else để đổi class in-stock / out-stock -->
+                           
                             <span class="status in-stock">{{ $product->status }}</span>
                         </td>
                         <td class="actions">
-                            <!-- Sửa thành thẻ a để đúng chuẩn RESTful thay vì form -->
+                           
                             <a href="{{ route('products.edit', $product->id) }}" class="btn btn-outline">Sửa</a>
                             
                             <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="delete-form" style="display: inline-block;">
@@ -362,6 +408,22 @@
 
     <!-- JS Hiệu ứng -->
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    const toast = document.getElementById("toast-success");
+    
+    if (toast) {
+        // Cài đặt thời gian 5 giây (5000 milliseconds)
+        setTimeout(() => {
+            // Thêm class hide để chạy hiệu ứng mờ dần và trượt ra
+            toast.classList.add("hide");
+            
+            // Đợi thêm 500ms cho hiệu ứng chạy xong rồi mới xóa hẳn HTML
+            setTimeout(() => {
+                toast.remove();
+            }, 500);
+        }, 5000);
+    }
+});
         document.addEventListener("DOMContentLoaded", () => {
             // 1. Hiệu ứng xuất hiện tuần tự (Staggered fade-in) cho các hàng trong bảng
             const rows = document.querySelectorAll(".product-row");

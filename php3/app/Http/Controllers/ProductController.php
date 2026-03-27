@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ProductModel;
+use Illuminate\Container\Attributes\Storage;
 use Illuminate\Routing\Controller;
 
 class ProductController extends Controller
@@ -11,14 +12,13 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->input('search');
-        var_dump($keyword);
         $products = ProductModel::where('name', 'like', '%' . $keyword)->paginate(10);
 
-        return view('products.index', ['products' => $products]);
+        return view('admin.products.index', ['products' => $products]);
     }
     public function create()
     {
-        return view('products.create');
+        return view('admin.products.create');
     }
     public function store(Request $request)
     {
@@ -42,12 +42,12 @@ class ProductController extends Controller
 
         ProductModel::create($data);
 
-        return redirect('products')->with('succes', 'Thêm thành công');
+        return redirect('admin/products')->with('thongbao', 'Thêm thành công');
     }
     public function edit($id)
     {
         $product = ProductModel::findOrFail($id);
-        return view('products.edit', compact('product'));
+        return view('admin/products/edit', compact('product'));
     }
     public function update(Request $request, $id)
     {
@@ -61,20 +61,23 @@ class ProductController extends Controller
             'status'      => 'required|in:0,1',
             'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+        $product = ProductModel::findOrFail($id);
+
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('products', 'public');
             $data['image'] = $path;
         }
-          ProductModel::findOrFail($id)->update($data);
+        
+          $product->update($data);
         
 
-        return redirect()->route('products')->with('succes', 'Cập nhật thành công');
+        return redirect()->route('products.index')->with('thongbao', 'Cập nhật thành công');
     }
 
     public function destroy(ProductModel $product)
     {
         $product = ProductModel::findOrFail($product->id);
         $product->delete();
-        return redirect('products');
+        return redirect('admin/products')->with('thongbao', 'Xóa thành công');
     }
 }

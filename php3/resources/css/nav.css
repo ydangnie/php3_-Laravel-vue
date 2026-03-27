@@ -1,0 +1,134 @@
+/* --- Style cho Dropdown --- */
+
+.dropdown {
+    position: relative;
+}
+
+.dropbtn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.arrow {
+    font-size: 0.75rem;
+    transition: transform 0.3s ease;
+}
+
+
+/* Khung Dropdown Desktop */
+
+.dropdown-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    min-width: 220px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    /* Bóng đổ mềm mại */
+    border: 1px solid #f0f0f0;
+    border-top: 2px solid #000000;
+    /* Hiệu ứng trượt và mờ */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    z-index: 1001;
+}
+
+
+/* Hiển thị dropdown khi hover (chỉ trên Desktop) */
+
+@media (min-width: 769px) {
+    .dropdown:hover .dropdown-content {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    .dropdown:hover .arrow {
+        transform: rotate(180deg);
+    }
+}
+
+
+/* Các link trong Dropdown */
+
+.dropdown-content li {
+    width: 100%;
+}
+
+.dropdown-content li a {
+    padding: 14px 20px;
+    display: block;
+    font-size: 0.9rem;
+    text-transform: none;
+    /* Bỏ in hoa để dễ đọc hơn */
+    font-weight: 500;
+    border-bottom: 1px solid #f7f7f7;
+    transition: all 0.2s ease;
+}
+
+
+/* Xóa hiệu ứng gạch chân của menu cha */
+
+.dropdown-content li a::after {
+    display: none;
+}
+
+
+/* Hiệu ứng thụt lề tinh tế khi hover */
+
+.dropdown-content li a:hover {
+    background-color: #fcfcfc;
+    color: #000000;
+    padding-left: 26px;
+}
+
+.dropdown-content li:last-child a {
+    border-bottom: none;
+}
+
+
+/* --- Responsive Dropdown cho Mobile --- */
+
+@media (max-width: 768px) {
+    .dropdown-content {
+        position: static;
+        box-shadow: none;
+        border: none;
+        border-left: 2px solid #000000;
+        margin-left: 20px;
+        margin-top: 10px;
+        background-color: #fafafa;
+        /* Ẩn mặc định trên mobile để làm accordion */
+        display: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+    }
+    .dropdown-content li a {
+        padding: 10px 15px;
+    }
+    /* Class active do JS thêm vào khi click */
+    .dropdown.active .dropdown-content {
+        display: block;
+        animation: fadeIn 0.3s ease;
+    }
+    .dropdown.active .arrow {
+        transform: rotate(180deg);
+    }
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}

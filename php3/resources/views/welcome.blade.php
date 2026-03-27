@@ -1,6 +1,4 @@
-<div id="app">
-    <welcome :items="@js($products)"></welcome>
+<Template>
+    @include('layouts.nav');
+</Template>
 
-</div>
-
-@vite('resources/js/app.js')
