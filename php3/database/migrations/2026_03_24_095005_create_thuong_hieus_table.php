@@ -10,18 +10,25 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('thuonghieu', function (Blueprint $table) {
-            $table->id();
-            $table->ten();
-        });
-    }
+{
+    Schema::create('thuong_hieu', function (Blueprint $table) {
+        $table->id();
+        
+        // SỬA DÒNG 16 Ở ĐÂY:
+        $table->string('name'); // Phải có chữ 'string' ở trước
+        
+        // Nếu bạn muốn có thêm các cột khác thì viết tương tự:
+        // $table->string('logo')->nullable(); 
+        
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('thuonghieu');
+        Schema::dropIfExists('thuong_hieu');
     }
 };
